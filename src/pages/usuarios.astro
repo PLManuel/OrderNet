@@ -1,0 +1,18 @@
+---
+import UsersTable from "@/components/UsersTable"
+import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
+import UserCreateModal from "@/components/UserCreateModal"
+---
+
+<LayoutDashboard>
+  <header class="flex justify-between">
+    <div>
+      <h1 class="text-2xl font-bold">Gestión de Usuarios</h1>
+      <p class="text-gray-700 text-sm mt-1 mb-2">
+        Administra los usuarios del sistema
+      </p>
+    </div>
+    <UserCreateModal client:load />
+  </header>
+  <UsersTable client:load />
+</LayoutDashboard>
