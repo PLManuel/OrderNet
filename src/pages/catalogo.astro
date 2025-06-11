@@ -1,0 +1,23 @@
+---
+import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
+import ProductCreateModal from "@/components/ProductCreateModal"
+import CategoriesTable from "@/components/CategoriesTable"
+import CatalogGrid from "@/components/CatalogGrid"
+
+---
+
+<LayoutDashboard>
+  <header class="flex justify-between">
+    <div>
+      <h1 class="text-2xl font-bold">Catálogo de Productos</h1>
+      <p class="text-gray-700 text-sm mt-1 mb-2">
+        Gestiona productos y categorías del menú
+      </p>
+    </div>
+    <ProductCreateModal client:load />
+  </header>
+  <div class="flex gap-3">
+    <CatalogGrid client:load/>
+    <CategoriesTable client:load />
+  </div>
+</LayoutDashboard>
