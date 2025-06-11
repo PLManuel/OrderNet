@@ -1,0 +1,18 @@
+---
+import TablesList from "@/components/TablesList"
+import UserSection from "@/components/UserSection.astro"
+import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
+---
+
+<LayoutDashboard>
+  <header>
+    <h1 class="text-2xl font-bold">Configuración</h1>
+    <p class="text-gray-700 text-sm mt-1 mb-2">
+      Gestiona tu perfil y la configuración del sistema
+    </p>
+  </header>
+  <div class="flex gap-3">
+    <UserSection server:defer />
+    <TablesList client:load />
+  </div>
+</LayoutDashboard>
