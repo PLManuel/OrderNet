@@ -5,7 +5,6 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
 <LayoutDashboard>
   <div class="pattern-dots min-h-screen pb-12">
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-      <!-- Header with Logo and Welcome -->
       <div class="relative mb-16">
         <div class="absolute inset-0 flex items-center justify-center">
           <div
@@ -46,7 +45,6 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
         </div>
       </div>
 
-      <!-- Quick Stats Cards -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
         <div
           class="stat-card bg-white rounded-xl border border-[#e5e7eb] shadow-sm p-6 flex items-center"
@@ -157,9 +155,7 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
         </div>
       </div>
 
-      <!-- Main Menu Cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-        <!-- Usuarios Card -->
         <a href="/usuarios" class="group block">
           <div
             class="menu-card bg-white rounded-xl border border-[#e5e7eb] hover:border-[#4f46e5] p-8"
@@ -251,7 +247,6 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
           </div>
         </a>
 
-        <!-- Pedidos Card -->
         <a href="/pedidos" class="group block">
           <div
             class="menu-card bg-white rounded-xl border border-[#e5e7eb] hover:border-[#059669] p-8"
@@ -339,7 +334,6 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
           </div>
         </a>
 
-        <!-- Catálogo Card -->
         <a href="/catalogo" class="group block">
           <div
             class="menu-card bg-white rounded-xl border border-[#e5e7eb] hover:border-[#d97706] p-8"
@@ -421,7 +415,6 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
           </div>
         </a>
 
-        <!-- Ajustes Card -->
         <a href="/ajustes" class="group block">
           <div
             class="menu-card bg-white rounded-xl border border-[#e5e7eb] hover:border-[#dc2626] p-8"
@@ -507,7 +500,6 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
         </a>
       </div>
 
-      <!-- Activity Section -->
       <div class="bg-white rounded-xl border border-[#e5e7eb] p-8 mb-16">
         <div class="flex justify-between items-center mb-8">
           <h3 class="text-2xl font-bold text-[#1f2937]">Actividad reciente</h3>
@@ -615,7 +607,6 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
         </div>
       </div>
 
-      <!-- Footer -->
       <div class="text-center pt-8 border-t border-[#e5e7eb]">
         <div class="flex justify-center space-x-6 mb-4">
           <a href="#" class="text-[#6b7280] hover:text-[#4f46e5]">
@@ -752,9 +743,7 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
   </style>
 
   <script>
-    // Simple animation for stats counters
-    document.addEventListener("DOMContentLoaded", () => {
-      // Add hover effect to cards
+    document.addEventListener("astro:page-load", () => {
       const cards = document.querySelectorAll(".menu-card")
       cards.forEach((card) => {
         card.addEventListener("mouseenter", () => {
@@ -765,7 +754,6 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
         })
       })
 
-      // Add notification counter animation
       const badges = document.querySelectorAll(".notification-badge")
       badges.forEach((badge) => {
         badge.classList.add("animate-pulse")
