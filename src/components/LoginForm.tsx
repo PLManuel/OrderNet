@@ -2,9 +2,11 @@ import { useState } from "react"
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState("")
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setErrorMsg("")
     setLoading(true)
 
     const formData = new FormData(e.target)
@@ -19,14 +21,18 @@ const LoginForm = () => {
         },
         body: JSON.stringify({ email, password }),
       })
-      if (!response.ok) {
-        throw new Error("Error en el login")
-      }
-      setLoading(false)
+
       const data = await response.json()
+      if (!response.ok) {
+        setErrorMsg(data.message || "Credenciales inválidas")
+        setLoading(false)
+        return
+      }
       window.location.href = data.redirectTo
     } catch (error: any) {
-      console.error("Error:", error.message)
+      console.error("Error:", error)
+      setErrorMsg("Error de conexión con el servidor")
+      setLoading(false)
     }
   }
 
@@ -63,6 +69,7 @@ const LoginForm = () => {
           <span className="ml-3">Recuérdame</span>
         </label>
       </fieldset>
+      {errorMsg && <div className="text-red-500 text-sm mb-4">{errorMsg}</div>}
       <fieldset className="grid grid-rows-[1fr_auto]">
         <button
           type="submit"
