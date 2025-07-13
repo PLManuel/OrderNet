@@ -136,6 +136,7 @@ const UserCreateModal = () => {
           <input
             name="email"
             type="email"
+            autoComplete="email"
             value={formData.email}
             onChange={handleChange}
             placeholder="correo@ejemplo.com"
@@ -146,6 +147,7 @@ const UserCreateModal = () => {
           <input
             name="password"
             type="password"
+            autoComplete="new-password"
             value={formData.password}
             onChange={handleChange}
             placeholder="••••••••"

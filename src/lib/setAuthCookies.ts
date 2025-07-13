@@ -37,7 +37,7 @@ export function setAuthCookies(
       httpOnly: false,
       secure: import.meta.env.PROD,
       path: "/",
-      maxAge: 60 * 24,
+      maxAge: 60 * 60 * 24 * 7,
       sameSite: "strict",
     }
   )

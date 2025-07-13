@@ -14,8 +14,6 @@ export const POST: APIRoute = async ({ cookies }) => {
       },
     })
 
-    console.log(response)
-
     if (!response.ok) {
       const data = await response.json()
       return new Response(JSON.stringify({ error: data.message }), {

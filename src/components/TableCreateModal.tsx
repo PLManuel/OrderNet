@@ -2,7 +2,7 @@ import { useRef, useState, type FormEvent } from "react"
 import type { TableCreateData } from "@/types/catalog"
 
 const initialForm: TableCreateData = {
-  code: ""
+  code: "",
 }
 
 export default function TableCreateModal() {
@@ -71,7 +71,7 @@ export default function TableCreateModal() {
     <>
       <button
         onClick={openModal}
-        className="bg-white/20 hover:bg-white/30 text-white font-medium py-2 px-3 rounded-lg transition-colors duration-200 flex items-center text-sm"
+        className="bg-purple-600 hover:bg-purple-700 cursor-pointer h-fit w-fit text-white font-medium py-2 px-3 rounded-lg transition-colors duration-200 flex items-center text-sm"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

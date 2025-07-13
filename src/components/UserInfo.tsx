@@ -1,36 +1,17 @@
-import type { User } from "@/types/catalog"
-import { useEffect, useState } from "react"
+interface Props {
+  user: {
+    id: number
+    name: string
+    email: string
+    role: "ADMINISTRATOR" | "WAITER"
+    active: boolean
+  }
+}
 
-const UserInfo = () => {
-  const [userData, setUserData] = useState<User | null>({
-    id: 0,
-    name: "Cargando...",
-    email: "••••••••••••••",
-    role: "WAITER",
-    active: true,
-  })
-
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const response = await fetch("/api/user/getMyUser")
-        if (response.ok) {
-          const data = await response.json()
-          setUserData(data)
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error)
-      }
-    }
-
-    loadUserData()
-  }, [])
-
-  if (!userData) return null
-
+const UserInfo = ({ user }: Props) => {
   return (
     <section className="flex flex-col items-center">
-      {userData.role === "ADMINISTRATOR" ? (
+      {user.role === "ADMINISTRATOR" ? (
         <svg
           className="stroke-primary size-16 stroke-[1.5] mb-1"
           xmlns="http://www.w3.org/2000/svg"
@@ -39,9 +20,9 @@ const UserInfo = () => {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <path d="M6 21v-2a4 4 0 0 1 4 -4h2" />
@@ -57,17 +38,17 @@ const UserInfo = () => {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
           <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
         </svg>
       )}
-      <h2 className="font-medium">{userData.name}</h2>
-      <p className="text-secondary-text text-sm">{userData.email}</p>
+      <h2 className="font-medium">{user.name}</h2>
+      <p className="text-secondary-text text-sm">{user.email}</p>
     </section>
   )
 }

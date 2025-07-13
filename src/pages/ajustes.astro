@@ -1,6 +1,6 @@
 ---
 import TablesList from "@/components/TablesList"
-import UserSection from "@/components/UserSection.astro"
+import UserSection from "@/components/UserSection"
 import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
 ---
 
@@ -12,7 +12,7 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
     </p>
   </header>
   <div class="flex gap-3">
-    <UserSection server:defer />
+     <UserSection client:load />
     <TablesList client:load />
   </div>
 </LayoutDashboard>
