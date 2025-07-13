@@ -20,9 +20,14 @@ const initialForm: UserFormData = {
 interface UserUpdateModalProps {
   userId: number | undefined
   onUpdateSuccess?: () => void
+  isAdmin?: boolean
 }
 
-const UserUpdateModal = ({ userId, onUpdateSuccess }: UserUpdateModalProps) => {
+const UserUpdateModal = ({
+  userId,
+  onUpdateSuccess,
+  isAdmin,
+}: UserUpdateModalProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isLoadingData, setIsLoadingData] = useState(false)
   const [message, setMessage] = useState<{
@@ -306,35 +311,41 @@ const UserUpdateModal = ({ userId, onUpdateSuccess }: UserUpdateModalProps) => {
                 </p>
               </div>
 
-              <div>
-                <label
-                  htmlFor="role"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Rol
-                </label>
-                <select
-                  id="role"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="WAITER">Mesero</option>
-                  <option value="ADMINISTRATOR">Administrador</option>
-                </select>
-              </div>
+              {isAdmin && (
+                <>
+                  <div>
+                    <label
+                      htmlFor="role"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Rol
+                    </label>
+                    <select
+                      id="role"
+                      name="role"
+                      value={formData.role}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                      <option value="WAITER">Mesero</option>
+                      <option value="ADMINISTRATOR">Administrador</option>
+                    </select>
+                  </div>
 
-              <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  name="active"
-                  checked={formData.active}
-                  onChange={handleChange}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <span className="text-sm text-gray-700">Usuario activo</span>
-              </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      name="active"
+                      checked={formData.active}
+                      onChange={handleChange}
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <span className="text-sm text-gray-700">
+                      Usuario activo
+                    </span>
+                  </label>
+                </>
+              )}
 
               <div className="flex justify-end space-x-3 pt-4">
                 <button

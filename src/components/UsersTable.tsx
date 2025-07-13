@@ -13,6 +13,7 @@ type User = {
 
 const UsersTable = () => {
   const [users, setUsers] = useState<User[]>([])
+  const [myUser, setMyUser] = useState<User>()
   const [openMenuId, setOpenMenuId] = useState<number | null>(null)
   const [, setIsLoading] = useState(true)
 
@@ -26,6 +27,15 @@ const UsersTable = () => {
       console.error("Error fetching users:", error)
     } finally {
       setIsLoading(false)
+    }
+    try {
+      const myUserData = await fetch("/api/user/getMyUser")
+      if (myUserData.ok) {
+        const myUser = await myUserData.json()
+        setMyUser(myUser)
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error)
     }
   }
 
@@ -112,39 +122,44 @@ const UsersTable = () => {
                   </span>
                 </td>
                 <td className="px-6 py-4 text-sm font-medium relative">
-                  <button
-                    onClick={() =>
-                      setOpenMenuId(openMenuId === user.id ? null : user.id)
-                    }
-                    className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm"
-                  >
-                    <span>⚙️</span>
-                    <span
-                      className={`ml-1 transform transition-transform duration-200 ${
-                        openMenuId === user.id ? "rotate-180" : ""
-                      }`}
-                    >
-                      ▼
-                    </span>
-                  </button>
-                  {openMenuId === user.id && (
-                    <div className="absolute right-2 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
-                      <UserUpdateModal
-                        userId={user.id}
-                        onUpdateSuccess={() => {
-                          setOpenMenuId(null)
-                          fetchUsers()
-                        }}
-                      />
-                      <UserDeleteButton
-                        userId={user.id}
-                        userEmail={user.email}
-                        onDeleteSuccess={() => {
-                          setOpenMenuId(null)
-                          fetchUsers()
-                        }}
-                      />
-                    </div>
+                  {myUser?.id != user.id && (
+                    <>
+                      <button
+                        onClick={() =>
+                          setOpenMenuId(openMenuId === user.id ? null : user.id)
+                        }
+                        className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm"
+                      >
+                        <span>⚙️</span>
+                        <span
+                          className={`ml-1 transform transition-transform duration-200 ${
+                            openMenuId === user.id ? "rotate-180" : ""
+                          }`}
+                        >
+                          ▼
+                        </span>
+                      </button>
+                      {openMenuId === user.id && (
+                        <div className="absolute right-2 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
+                          <UserUpdateModal
+                            userId={user.id}
+                            onUpdateSuccess={() => {
+                              setOpenMenuId(null)
+                              fetchUsers()
+                            }}
+                            isAdmin
+                          />
+                          <UserDeleteButton
+                            userId={user.id}
+                            userEmail={user.email}
+                            onDeleteSuccess={() => {
+                              setOpenMenuId(null)
+                              fetchUsers()
+                            }}
+                          />
+                        </div>
+                      )}
+                    </>
                   )}
                 </td>
               </tr>
@@ -164,18 +179,6 @@ const UsersTable = () => {
           </p>
         </div>
       )}
-
-      <div className="bg-gray-50 px-6 py-3 border-t border-gray-200">
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-600">
-            Total de usuarios:{" "}
-            <span className="font-semibold text-gray-900">{users.length}</span>
-          </div>
-          <div className="text-sm text-gray-500">
-            Última actualización: {new Date().toLocaleTimeString()}
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
