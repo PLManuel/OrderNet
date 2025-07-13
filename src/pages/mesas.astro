@@ -1,0 +1,18 @@
+---
+import TableCreateModal from "@/components/TableCreateModal";
+import TablesList from "@/components/TablesList";
+import LayoutDashboard from "@/layouts/LayoutDashboard.astro";
+---
+
+<LayoutDashboard>
+  <header class="flex justify-between">
+    <div>
+      <h1 class="text-2xl font-bold">Gestión de Mesas</h1>
+      <p class="text-gray-700 text-sm mt-1 mb-2">
+        Administra las mesas del sistema
+      </p>
+    </div>
+    <TableCreateModal client:load />
+  </header>
+  <TablesList client:load />
+</LayoutDashboard>
