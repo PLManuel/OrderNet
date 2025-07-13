@@ -1,6 +1,4 @@
-"use client"
-
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { Product } from "@/types/catalog"
 import ProductUpdateModal from "./ProductUpdateModal"
 
@@ -16,6 +14,25 @@ export default function ProductCard({
   onDelete,
 }: ProductCardProps) {
   const [openMenu, setOpenMenu] = useState(false)
+  const [user, setUser] = useState("WAITER")
+
+  const fetchUser = async () => {
+    try {
+      const res = await fetch("/api/user/getMyUser")
+      if (res.ok) {
+        const data = await res.json()
+        setUser(data.role)
+      } else {
+        console.error("No se pudo obtener el usuario")
+      }
+    } catch (err) {
+      console.error("Error de red al obtener usuario:", err)
+    }
+  }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
@@ -56,44 +73,45 @@ export default function ProductCard({
           <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
             {product.categoryDTO.name}
           </span>
-
-          <div className="relative">
-            <button
-              onClick={() => setOpenMenu(!openMenu)}
-              className="inline-flex items-center px-3 py-1 bg-gray-100 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-150"
-            >
-              <span className="mr-1">⚙️</span>
-              <span
-                className={`transform transition-transform duration-200 ${
-                  openMenu ? "rotate-180" : ""
-                }`}
+          {user === "ADMINISTRATOR" && (
+            <div className="relative">
+              <button
+                onClick={() => setOpenMenu(!openMenu)}
+                className="inline-flex items-center px-3 py-1 bg-gray-100 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-150"
               >
-                ▼
-              </span>
-            </button>
-
-            {openMenu && (
-              <div className="absolute right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 w-fit">
-                <ProductUpdateModal
-                  productId={product.id}
-                  onUpdateSuccess={() => {
-                    onEdit?.(product.id)
-                    setOpenMenu(false)
-                  }}
-                />
-                <button
-                  onClick={() => {
-                    onDelete?.(product.id)
-                    setOpenMenu(false)
-                  }}
-                  className="flex items-center w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-150"
+                <span className="mr-1">⚙️</span>
+                <span
+                  className={`transform transition-transform duration-200 ${
+                    openMenu ? "rotate-180" : ""
+                  }`}
                 >
-                  <span className="mr-2">🗑️</span>
-                  Eliminar
-                </button>
-              </div>
-            )}
-          </div>
+                  ▼
+                </span>
+              </button>
+
+              {openMenu && (
+                <div className="absolute right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 w-fit">
+                  <ProductUpdateModal
+                    productId={product.id}
+                    onUpdateSuccess={() => {
+                      onEdit?.(product.id)
+                      setOpenMenu(false)
+                    }}
+                  />
+                  <button
+                    onClick={() => {
+                      onDelete?.(product.id)
+                      setOpenMenu(false)
+                    }}
+                    className="flex items-center w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-150"
+                  >
+                    <span className="mr-2">🗑️</span>
+                    Eliminar
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
