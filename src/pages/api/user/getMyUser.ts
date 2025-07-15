@@ -18,8 +18,9 @@ export const GET: APIRoute = async ({ cookies }) => {
   }
 
   if (!userInfo?.id) {
-    return new Response(JSON.stringify({ error: "ID no proporcionado" }), {
-      status: 400,
+    return new Response(JSON.stringify({ error: "No autorizado, falta ID" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
     })
   }
 

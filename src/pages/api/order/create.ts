@@ -3,24 +3,23 @@ import type { APIRoute } from "astro"
 
 export const prerender = false
 
-export const PUT: APIRoute = async ({ request, cookies }) => {
+export const POST: APIRoute = async ({ request, cookies }) => {
   try {
     const data = await request.json()
-    const { id, ...updateData } = data
 
     const response = await fetchWithAuth({
       cookies,
-      input: `http://localhost:8080/restaurant-table/update/${id}`,
+      input: "http://localhost:8080/order/create",
       init: {
-        method: "PUT",
-        body: JSON.stringify(updateData),
+        method: "POST",
+        body: JSON.stringify(data),
       },
     })
 
     if (!response.ok) {
       const error = await response.json()
       return new Response(
-        JSON.stringify({ error: error.message || "Error en actualizar" }),
+        JSON.stringify({ error: error.message || "Error al crear la orden" }),
         {
           status: response.status,
         }

@@ -1,5 +1,5 @@
 ---
-import TablesList from "@/components/TablesList"
+import AssignedTables from "@/components/AssignedTables"
 import UserSection from "@/components/UserSection"
 import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
 ---
@@ -13,6 +13,6 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
   </header>
   <div class="flex gap-3">
      <UserSection client:load />
-    <TablesList client:load />
+    <AssignedTables client:load />
   </div>
 </LayoutDashboard>

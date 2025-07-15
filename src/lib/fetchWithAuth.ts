@@ -14,13 +14,18 @@ export async function fetchWithAuth({
   let accessToken = cookies.get("accessToken")?.value
   const refreshToken = cookies.get("refreshToken")?.value
 
+  const headers: Record<string, string> = {
+    ...(init?.headers as Record<string, string>),
+    Authorization: `Bearer ${accessToken}`,
+  }
+
+  if (!headers["Content-Type"] && init?.method !== "GET") {
+    headers["Content-Type"] = "application/json"
+  }
+
   let response = await fetch(input, {
     ...init,
-    headers: {
-      ...init?.headers,
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    },
+    headers,
   })
 
   if (response.status !== 403 && response.status !== 400) {
@@ -79,13 +84,18 @@ export async function fetchWithAuth({
 
   console.log("---- refresh token ----")
 
+  const retryHeaders: Record<string, string> = {
+    ...(init?.headers as Record<string, string>),
+    Authorization: `Bearer ${data.accessToken}`,
+  }
+
+  if (!retryHeaders["Content-Type"] && init?.method !== "GET") {
+    retryHeaders["Content-Type"] = "application/json"
+  }
+
   const retryResponse = await fetch(input, {
     ...init,
-    headers: {
-      ...init?.headers,
-      Authorization: `Bearer ${data.accessToken}`,
-      "Content-Type": "application/json",
-    },
+    headers: retryHeaders,
   })
 
   return retryResponse

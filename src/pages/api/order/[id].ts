@@ -3,11 +3,19 @@ import type { APIRoute } from "astro"
 
 export const prerender = false
 
-export const GET: APIRoute = async ({ cookies }) => {
+export const GET: APIRoute = async ({ cookies, params }) => {
+  const id = params.id
+
+  if (!id) {
+    return new Response(JSON.stringify({ error: "ID no proporcionado" }), {
+      status: 400,
+    })
+  }
+
   try {
     const response = await fetchWithAuth({
       cookies,
-      input: "http://localhost:8080/user",
+      input: `http://localhost:8080/order/${id}`,
       init: {
         method: "GET",
       },
@@ -15,12 +23,10 @@ export const GET: APIRoute = async ({ cookies }) => {
 
     const responseData = await response.json()
 
-    console.log(responseData)
-
     if (!response.ok) {
       return new Response(
         JSON.stringify({
-          error: responseData.message || "Error al obtener usuarios",
+          error: responseData.message || "Error al obtener orden",
         }),
         { status: response.status }
       )
@@ -33,7 +39,6 @@ export const GET: APIRoute = async ({ cookies }) => {
       },
     })
   } catch (e) {
-    console.error(e)
     return new Response(JSON.stringify({ error: "Error interno" }), {
       status: 500,
     })

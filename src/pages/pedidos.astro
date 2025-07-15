@@ -1,7 +1,12 @@
 ---
+import OrderCreateModal from "@/components/OrderCreateModal"
+import OrdersTable from "@/components/OrdersTable"
 import LayoutDashboard from "@/layouts/LayoutDashboard.astro"
+import ReportDownloadButton from "@/components/ReportDownloadButton"
 ---
 
 <LayoutDashboard>
-  pedidos
+  <ReportDownloadButton client:load />
+  <OrderCreateModal client:load />
+  <OrdersTable client:load />
 </LayoutDashboard>

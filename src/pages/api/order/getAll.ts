@@ -7,7 +7,7 @@ export const GET: APIRoute = async ({ cookies }) => {
   try {
     const response = await fetchWithAuth({
       cookies,
-      input: "http://localhost:8080/user",
+      input: "http://localhost:8080/order",
       init: {
         method: "GET",
       },
@@ -15,12 +15,10 @@ export const GET: APIRoute = async ({ cookies }) => {
 
     const responseData = await response.json()
 
-    console.log(responseData)
-
     if (!response.ok) {
       return new Response(
         JSON.stringify({
-          error: responseData.message || "Error al obtener usuarios",
+          error: responseData.message || "Error al obtener todas las órdenes",
         }),
         { status: response.status }
       )

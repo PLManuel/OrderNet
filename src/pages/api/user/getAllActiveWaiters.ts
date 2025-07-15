@@ -15,8 +15,6 @@ export const GET: APIRoute = async ({ cookies }) => {
 
     const responseData = await response.json()
 
-    console.log(responseData)
-
     if (!response.ok) {
       return new Response(
         JSON.stringify({
@@ -26,7 +24,13 @@ export const GET: APIRoute = async ({ cookies }) => {
       )
     }
 
-    return new Response(JSON.stringify(responseData), {
+    const waiters = responseData.filter(
+      (user: any) => user.role === "WAITER" && user.sessionActive === true
+    )
+
+    console.log("Waiters:", waiters)
+
+    return new Response(JSON.stringify(waiters), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

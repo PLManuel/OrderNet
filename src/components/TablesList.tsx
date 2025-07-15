@@ -12,7 +12,7 @@ type Table = {
   id: number
   code: string
   status: string
-  userDTO: User | null
+  userShortDTO: User | null
 }
 
 const TableList = () => {
@@ -121,13 +121,13 @@ const TableList = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
                     className={`inline-flex items-center px-3 py-1 rounded-md text-xs font-medium border ${
-                      table.userDTO
+                      table.userShortDTO
                         ? "bg-blue-100 text-blue-800 border-blue-200"
                         : "bg-gray-100 text-gray-800 border-gray-200"
                     }`}
                   >
-                    {table.userDTO
-                      ? `(${table.userDTO?.id}) ${table.userDTO?.name}`
+                    {table.userShortDTO
+                      ? `(${table.userShortDTO?.id}) ${table.userShortDTO?.name}`
                       : "No asignado"}
                   </span>
                 </td>

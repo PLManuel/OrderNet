@@ -6,11 +6,12 @@ export const prerender = false
 export const PUT: APIRoute = async ({ request, cookies }) => {
   try {
     const data = await request.json()
+    console.log("Received data:", data)
     const { id, ...updateData } = data
 
     const response = await fetchWithAuth({
       cookies,
-      input: `http://localhost:8080/restaurant-table/update/${id}`,
+      input: `http://localhost:8080/order/update/${id}`,
       init: {
         method: "PUT",
         body: JSON.stringify(updateData),

@@ -1,6 +1,8 @@
 ---
+import OrganizeTablesButton from "@/components/OrganizeTablesButton";
 import TableCreateModal from "@/components/TableCreateModal";
 import TablesList from "@/components/TablesList";
+import UnassignWaitersButton from "@/components/UnassignWaitersButton";
 import LayoutDashboard from "@/layouts/LayoutDashboard.astro";
 ---
 
@@ -12,7 +14,11 @@ import LayoutDashboard from "@/layouts/LayoutDashboard.astro";
         Administra las mesas del sistema
       </p>
     </div>
-    <TableCreateModal client:load />
+    <div class="flex items-center gap-2">
+      <UnassignWaitersButton client:load />
+      <OrganizeTablesButton client:load />
+      <TableCreateModal client:load />
+    </div>
   </header>
   <TablesList client:load />
 </LayoutDashboard>
