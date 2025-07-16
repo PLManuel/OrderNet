@@ -19,8 +19,6 @@ const UnassignWaitersButton = () => {
 
         if (!res.ok) {
           console.error(`❌ Error al desasignar mesa ${table.id}`)
-        } else {
-          console.log(`✅ Mesa ${table.code} desasignada`)
         }
       }
 

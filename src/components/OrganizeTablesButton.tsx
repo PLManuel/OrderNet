@@ -27,8 +27,6 @@ const OrganizeTablesButton = () => {
 
         if (!response.ok) {
           console.error(`❌ Error al actualizar mesa ${table.id}`)
-        } else {
-          console.log(`✅ Mesa ${table.code} asignada a mozo ${waiter.name}`)
         }
       } catch (err) {
         console.error(`Error en mesa ${table.id}:`, err)

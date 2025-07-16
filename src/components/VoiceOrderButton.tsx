@@ -60,7 +60,6 @@ Texto del cliente:
     try {
       setIsProcessing(true)
       const prompt = generatePrompt(transcript)
-      console.log("🧠 Prompt generado para IA:\n", prompt)
 
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
@@ -150,7 +149,6 @@ Texto del cliente:
 
     recognition.onresult = async (event: any) => {
       const transcript = event.results[0][0].transcript
-      console.log("Texto reconocido:", transcript)
       setLastTranscript(transcript)
 
       const response = await callDeepSeek(transcript)

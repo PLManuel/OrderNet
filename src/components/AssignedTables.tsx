@@ -17,7 +17,6 @@ const AssignedTables = () => {
     try {
       const res = await fetch("/api/user/getMyUser")
       const data = await res.json()
-      console.log("User data:", JSON.stringify(data))
       setUser(data)
     } catch (error) {
       console.error("Error fetching user:", error)

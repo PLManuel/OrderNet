@@ -28,8 +28,6 @@ export const GET: APIRoute = async ({ cookies }) => {
       (user: any) => user.role === "WAITER" && user.sessionActive === true
     )
 
-    console.log("Waiters:", waiters)
-
     return new Response(JSON.stringify(waiters), {
       status: 200,
       headers: {

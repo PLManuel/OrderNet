@@ -15,8 +15,6 @@ export const GET: APIRoute = async ({ cookies }) => {
 
     const responseData = await response.json()
 
-    console.log(responseData)
-
     if (!response.ok) {
       return new Response(
         JSON.stringify({

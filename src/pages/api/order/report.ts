@@ -8,8 +8,6 @@ export const GET: APIRoute = async ({ cookies, url }) => {
     const startDate = url.searchParams.get("startDate")
     const endDate = url.searchParams.get("endDate")
 
-    console.log("Fechas recibidas:", startDate, endDate)
-
     if (!startDate || !endDate) {
       return new Response(JSON.stringify({ error: "Faltan fechas" }), {
         status: 400,
@@ -17,8 +15,6 @@ export const GET: APIRoute = async ({ cookies, url }) => {
     }
 
     const fullUrl = `http://localhost:8080/order/report?startDate=${startDate}&endDate=${endDate}`
-
-    console.log(fullUrl)
 
     const response = await fetchWithAuth({
       cookies,

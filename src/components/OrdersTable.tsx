@@ -146,13 +146,14 @@ const OrdersTable = () => {
 
   return (
     <div className="space-y-6">
-      {ORDERED_STATUSES.map((status) =>
-        groupedOrders[status]?.length ? (
-          <div key={status}>
-            <h2 className="text-lg font-bold text-gray-800 mb-2">
-              {STATUS_LABELS[status]}
-            </h2>
-            <div className="grid grid-cols-2 gap-4">
+      {ORDERED_STATUSES.map((status) => (
+        <div key={status}>
+          <h2 className="text-lg font-bold text-gray-800 mb-2">
+            {STATUS_LABELS[status]}
+          </h2>
+
+          {groupedOrders[status]?.length ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {groupedOrders[status].map((order) => {
                 const cardColor =
                   order.status === "PENDING"
@@ -226,10 +227,8 @@ const OrdersTable = () => {
                         </button>
                       )}
                       <OrderUpdateModal
-                        onUpdateSuccess={() => {
-                          fetchOrders()
-                        }}
                         orderId={order.id}
+                        onUpdateSuccess={fetchOrders}
                       />
                       <button
                         onClick={() => handleDelete(order.id)}
@@ -242,9 +241,13 @@ const OrdersTable = () => {
                 )
               })}
             </div>
-          </div>
-        ) : null
-      )}
+          ) : (
+            <p className="text-sm text-gray-500 italic">
+              No hay pedidos en este estado.
+            </p>
+          )}
+        </div>
+      ))}
     </div>
   )
 }
