@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import VoiceOrderButton from "./VoiceOrderButton"
 
 interface AssignedTable {
   id: string
@@ -160,7 +161,6 @@ const OrderCreateModal = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <h2 className="text-2xl font-bold text-gray-800">Nuevo Pedido</h2>
 
-          {/* Mesa */}
           <div>
             <label className="text-sm font-medium block mb-1">
               Mesa asignada
@@ -178,21 +178,16 @@ const OrderCreateModal = () => {
             </select>
           </div>
 
-          {/* Notas */}
-          <div>
-            <label className="text-sm font-medium block mb-1">
-              Notas del pedido
-            </label>
-            <textarea
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className="w-full border px-3 py-2 rounded"
-              rows={3}
-              placeholder="Observaciones, alergias, etc."
-            />
-          </div>
+          <VoiceOrderButton
+            products={products}
+            onSetItems={(items) => {
+              setOrderItems((prev) => ({ ...prev, ...items }))
+            }}
+            onAddNotes={(extra) =>
+              setNotes((prev) => prev + (prev ? "\n" : "") + extra)
+            }
+          />
 
-          {/* Agregar Producto */}
           <div className="grid md:grid-cols-3 gap-4 items-end">
             <div>
               <label className="text-sm font-medium">Producto</label>
@@ -202,11 +197,13 @@ const OrderCreateModal = () => {
                 className="w-full border px-3 py-2 rounded"
               >
                 <option value="">-- Selecciona un producto --</option>
-                {products.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name} (S/ {p.price})
-                  </option>
-                ))}
+                {products
+                  .filter((p) => !(p.id in orderItems))
+                  .map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name} (S/ {p.price})
+                    </option>
+                  ))}
               </select>
             </div>
 
@@ -230,7 +227,6 @@ const OrderCreateModal = () => {
             </button>
           </div>
 
-          {/* Lista de Productos Agregados */}
           {Object.keys(orderItems).length > 0 && (
             <div className="mt-4">
               <h4 className="font-semibold mb-2">Productos seleccionados:</h4>
@@ -242,15 +238,37 @@ const OrderCreateModal = () => {
                       key={id}
                       className="flex justify-between items-center border p-2 rounded"
                     >
-                      <div>
-                        {product?.name} - {qty} x S/{" "}
-                        {product?.price?.toFixed(2)} ={" "}
-                        <strong>S/ {(product?.price || 0) * qty}</strong>
+                      <div className="flex-1">
+                        <div className="font-medium">{product?.name}</div>
+                        <div className="text-sm text-gray-700">
+                          Precio unitario: S/ {product?.price?.toFixed(2)}
+                        </div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <label className="text-sm">Cantidad:</label>
+                          <input
+                            type="number"
+                            min={1}
+                            value={qty}
+                            onChange={(e) => {
+                              const newQty = parseInt(e.target.value)
+                              if (newQty > 0) {
+                                setOrderItems((prev) => ({
+                                  ...prev,
+                                  [Number(id)]: newQty,
+                                }))
+                              }
+                            }}
+                            className="w-20 border px-2 py-1 rounded"
+                          />
+                          <span className="ml-auto font-semibold">
+                            Total: S/ {(product?.price || 0) * qty}
+                          </span>
+                        </div>
                       </div>
                       <button
                         type="button"
                         onClick={() => removeProductFromOrder(Number(id))}
-                        className="text-red-600 hover:text-red-800 text-sm"
+                        className="text-red-600 hover:text-red-800 text-sm ml-4"
                       >
                         Quitar
                       </button>
@@ -259,14 +277,25 @@ const OrderCreateModal = () => {
                 })}
               </ul>
 
-              {/* Total */}
               <div className="text-right mt-4 font-bold text-lg">
                 Total: S/ {calculateTotal().toFixed(2)}
               </div>
             </div>
           )}
 
-          {/* Acciones */}
+          <div>
+            <label className="text-sm font-medium block mb-1">
+              Notas del pedido
+            </label>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="w-full border px-3 py-2 rounded"
+              rows={3}
+              placeholder="Observaciones, alergias, etc."
+            />
+          </div>
+
           <div className="flex justify-end gap-3 pt-4 border-t">
             <button
               type="button"
